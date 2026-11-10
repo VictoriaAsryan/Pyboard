@@ -1,0 +1,19 @@
+from time import sleep
+from ultrasonic import Ultrasonic
+import tm1637
+
+
+display = tm1637.TM1637(clk=pyb.Pin('X3'), dio=pyb.Pin('X4'))
+sr04 = Ultrasonic(pyb.Pin('X1'), pyb.Pin('X2') )
+
+
+while True:#Pour que le capteur marche toujours
+    try: #essaie de mesurer la distance et si t'y arrives pas, on dit qu'il n'y a pas de distance
+        distance=sr04.distance_in_cm()
+    except:
+        distance=None
+    print("Distance : ",distance, "cm")
+    
+    if distance!=None:
+        display.number(int(distance))#c'est pour afficher les nombres entier, int c'est convertir en un nombre entier 
+    sleep(0.5)
